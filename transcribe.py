@@ -2,6 +2,9 @@ import sys
 import subprocess
 from pathlib import Path
 
+WHISPER_MODEL_PATH = "~/whisper.cpp/models/ggml-large-v3.bin"
+WHISPER_EXECUTABLE_PATH = "~/whisper.cpp/main"
+
 
 class SubprocessError(Exception):
     pass
@@ -32,8 +35,8 @@ def convert_to_wav(input_file):
 
 
 def transcribe(wav_file):
-    whisper_executable = Path("~/whisper.cpp/main").expanduser()
-    model_path = Path("~/whisper.cpp/models/ggml-large-v3.bin").expanduser()
+    whisper_executable = Path(WHISPER_EXECUTABLE_PATH).expanduser()
+    model_path = Path(WHISPER_MODEL_PATH).expanduser()
     cmd = [
         str(whisper_executable),
         "--no-timestamps ",
@@ -42,9 +45,8 @@ def transcribe(wav_file):
         "-l",
         "auto",
         "-f",
-        f'"{str(wav_file)}"'
+        f'"{str(wav_file)}"',
     ]
-    print(" ".join(cmd))
     transcript = run_subprocess(" ".join(cmd), "whisper failed", shell=True)
     return transcript
 
@@ -68,17 +70,15 @@ def style_markdown(transcript, summary):
     return markdown
 
 
-
 def main(input_file_path, output_folder_path):
     output_folder_path.mkdir(parents=True, exist_ok=True)
     wav_file_path = convert_to_wav(input_file_path)
     transcript_txt = transcribe(wav_file_path)
-    print(transcript_txt)
     summary_txt = summarize(transcript_txt)
     markdown = style_markdown(transcript_txt, summary_txt)
-    
     output_file_path = output_folder_path / f"{input_file_path.stem.split('-')[0]}.md"
     output_file_path.write_text(markdown)
+
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:
