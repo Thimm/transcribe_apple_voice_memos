@@ -1,37 +1,36 @@
 # Transcribe voice messages to text
-## Intention
-Every time I go on a walk, I'm recording voice messages to myself. It would be great if I could have these voice messages on my computer as text files so I can search through them and use them in my notes keeping app Obsidian. For that I've created this small little project that uses Automator to run a script that transcibes and summarized the voice message and then saves it to a text file.
+##Overview
+This project automates the transcription and summarization of voice memos into text files. It's designed for people like me who record voice memos while walking and wish to integrate these recordings into a note-keeping app like Obsidian. The solution uses macOS's Automator to execute a script that processes these voice memos, leveraging technologies like ffmpeg, ollama, and whisper.cpp.
 
-## How it works
-I record a message on either my phone or my computer. The message is a m4a file and is synced to my computer via iCloud. The file is saved in the folder `~/Library/Group Containers/group.com.apple.VoiceMemos.shared/Recordings/`.
-The script is triggered by a folder action. And this folder action is running a script that calls a python script that takes the voice message, converts it to a wav file, transcribes it, summarizes it with ollama and saves it to a text file.
+## Functionality
+Voice memos, recorded on either a phone or computer in m4a format, are synced to a macOS computer via iCloud. These files are located in ~/Library/Group Containers/group.com.apple.VoiceMemos.shared/Recordings/. A folder action triggers a Python script which:
+
+1. Converts the m4a file to wav format.
+2. ranscribes the audio.
+3. .Summarizes the content using ollama.
+4. Saves the output as a text file.
+
+## Limitations
+- Compatibility: Exclusively for macOS.
+- Testing: Confirmed functionality on MacBook Pro (M3).
 
 
-## Restrictions
-- Only works on macOS
-- Tested only on MacBook Pro (M3)
+## Setup Guide
+- ffmpeg Installation: Run `brew install ffmpeg`.
+- Ollama Installation: Download from [Ollama](https://ollama.ai/download/Ollama-darwin.zip).
+- Whisper.cpp Installation: Follow the [Readme for Core ML support]((https://github.com/ggerganov/whisper.cpp?tab=readme-ov-file#core-ml-support).
+- Terminal Access Configuration:
+  - Navigate to System Preferences > Security & Privacy > Privacy.
+  - Go to Files and Folders.
+  - Grant Terminal access to the voice memos folder.
+- Automator Folder Action:
+  - Open Automator, select File > Open, and choose Transcribe.workflow from this repo.
+  - Save the workflow.
+- Script Activation:
+  - Go to ~/Library/Group Containers/group.com.apple.VoiceMemos.shared/.
+  - Right-click Recordings, select Services > Folder Actions Setup.
+  - Choose and confirm the Transcribe workflow.
 
 
-## Installation
-1. Install ffmpeg `brew install ffmpeg`
-2. Install [oolama](https://ollama.ai/download/Ollama-darwin.zip)
-3. Install whisper.cpp by following the instructions in the [Readme for Core ML support]((https://github.com/ggerganov/whisper.cpp?tab=readme-ov-file#core-ml-support))
-4. Allow terminal to access voice memos folder, otherwise the Terminal is not allowed to access the voice memos folder and the script will not work.
-  - Open System Preferences
-  - Select Security & Privacy
-  - Select Privacy
-  - Select Files and Folders
-  - Select Terminal
-5. Add Automator folder action.
-  - Open Automator
-  - File > Open > Select the file `Transcribe.workflow` in this repo
-  - Save the workflow
-6. Setup the folder so that it runs the script
-  - Open `~/Library/Group Containers/group.com.apple.VoiceMemos.shared/` in Finder.
-  - Right click on the folder `Recordings` and select `Services > Folder Actions Setup`
-  - Select the workflow `Transcribe`
-  - Confirm Service and select "Transcribe" again
-
-> [!IMPORTANT]  
-> Now all your voice memos will be transcribe locally.
+**Now all your voice memos will be transcribe locally.**
 
