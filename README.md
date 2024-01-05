@@ -32,5 +32,5 @@ Voice memos, recorded on either a phone or computer in m4a format, are synced to
   - Choose and confirm the Transcribe workflow.
 
 
-**Now all your voice memos will be transcribe locally.**
+**Now all your voice memos will be transcribed locally.**
 
