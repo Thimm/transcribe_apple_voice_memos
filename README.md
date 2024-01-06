@@ -1,5 +1,6 @@
 # Transcribe voice messages to text
-##Overview
+
+## Overview
 This project automates the transcription and summarization of voice memos into text files. It's designed for people like me who record voice memos while walking and wish to integrate these recordings into a note-keeping app like Obsidian. The solution uses macOS's Automator to execute a script that processes these voice memos, leveraging technologies like ffmpeg, ollama, and whisper.cpp.
 
 ## Functionality
